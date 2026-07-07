@@ -7,9 +7,7 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <Compile Remove="Tasks\**" />
-    <EmbeddedResource Remove="Tasks\**" />
-    <None Remove="Tasks\**" />
+    <Folder Include="Exceptions\" />
   </ItemGroup>
 
 </Project>

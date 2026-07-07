@@ -1,3 +1,4 @@
 <Solution>
+  <Project Path="KanBox.Domain.Tests/KanBox.Domain.Tests.csproj" Id="0ac2a902-fb2f-43e1-be40-771af136bbc3" />
   <Project Path="KanBox.Domain/KanBox.Domain.csproj" />
 </Solution>
