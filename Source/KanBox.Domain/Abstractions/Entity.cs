@@ -4,14 +4,15 @@
     /// <summary>
     /// Class that represents base functionality for all entities
     /// </summary>
-    public abstract class Entity : IAuditable
+    public abstract class Entity<T> : IAuditable where T : struct
     {
         /// <summary>
         /// Primary protected constructor
         /// </summary>
         protected Entity() { }
 
-        public DateTime CreatedOnUtc { get; protected set; }
-        public DateTime ModifiedOnUtc { get; protected set; }
+        public abstract T Id { get; }
+        public DateTime CreatedOnUtc { get; private set; }
+        public DateTime ModifiedOnUtc { get; private set; }
     }
 }

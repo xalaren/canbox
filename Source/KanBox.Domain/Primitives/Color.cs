@@ -1,4 +1,5 @@
 using KanBox.Domain.Abstractions;
+using KanBox.Domain.Constants;
 
 namespace KanBox.Domain.Primitives;
 
@@ -42,39 +43,45 @@ public readonly struct Color : IEquatable<Color>
 
     public bool Equals(Color other)
     {
-        return GetType() == other.GetType() && string.Equals(Hex, other.Hex, StringComparison.InvariantCultureIgnoreCase);
+        return 
+            GetType() == other.GetType() && 
+            string.Equals
+            (
+                Hex, 
+                other.Hex, 
+                StringComparison.InvariantCultureIgnoreCase
+            );
     }
 
     public override bool Equals(object? obj)
     {
-        return obj is not null && GetType() == obj.GetType() && string.Equals(Hex, ((Color)obj).Hex, StringComparison.InvariantCultureIgnoreCase);
-    }
+        return 
+            obj is not null && 
+            GetType() == obj.GetType() && 
+            string.Equals
+            (
+                Hex, 
+                ((Color)obj).Hex, 
+                StringComparison.InvariantCultureIgnoreCase
+            );
 
-    public override int GetHashCode()
-    {
-        return ColorHashCodeMultiplier * Hex.GetHashCode();
     }
+    public override int GetHashCode() => ColorHashCodeMultiplier * Hex.GetHashCode();
 
-    public static bool operator ==(Color first, Color next)
-    {
-        return first.Equals(next);
-    }
+    public static bool operator ==(Color first, Color next) => first.Equals(next);
     
-    public static bool operator !=(Color first, Color next)
-    {
-        return !first.Equals(next);
-    }
+    public static bool operator !=(Color first, Color next) => !first.Equals(next);
     
     private string Format(string hex)
     {
         if (string.IsNullOrWhiteSpace(hex))
         {
-            throw new ArgumentNullException(nameof(hex), ColorErrorMessages.NullOrWhiteSpace);
+            throw new ArgumentNullException(nameof(hex), ErrorMessages.Color.NullOrWhiteSpace);
         }
 
         if (!hex.StartsWith("#"))
         {
-            throw new FormatException(ColorErrorMessages.NotStartsWithHexCharacter);
+            throw new FormatException(ErrorMessages.Color.NotStartsWithHexCharacter);
         }
 
         ReadOnlySpan<char> cleaned = hex
@@ -85,19 +92,19 @@ public readonly struct Color : IEquatable<Color>
         ReadOnlySpan<char> sliced = cleaned.Slice(HexCharacterIndex);
         int length = sliced.Length;
 
-        if (length != RgbHexLength &&
-            length != RgbaHexLength &&
-            length != DoubledRgbHexLength &&
-            length != DoubledRgbaHexLength)
+        if (length is not RgbHexLength and
+            not RgbaHexLength and
+            not DoubledRgbHexLength and
+            not DoubledRgbaHexLength)
         {
-            throw new FormatException(ColorErrorMessages.DoesNotMatchHexFormat);
+            throw new FormatException(ErrorMessages.Color.NotMatchHexFormat);
         }
 
         foreach (char character in sliced)
         {
             if (!IsCharacterInHex(character))
             {
-                throw new FormatException(ColorErrorMessages.DoesNotMatchHexFormat);
+                throw new FormatException(ErrorMessages.Color.NotMatchHexFormat);
             }
         }
 

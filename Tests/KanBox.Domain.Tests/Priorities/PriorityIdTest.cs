@@ -5,8 +5,9 @@ namespace KanBox.Domain.Tests.Priorities;
 [TestFixture]
 public class PriorityIdTest
 {
-    [TestCaseSource(typeof(PriorityIdTestTestCaseSources), nameof(PriorityIdTestTestCaseSources.DifferentGuids))]
-    public void Constructor_ProvidedId_SetsValueCorrectly(Guid id)
+
+    [Test]
+    public void Constructor_ProvidedGuid_SetsValueCorrectly([Random(3)] Guid id)
     {
         // Arrange - empty
         // Act 
@@ -15,6 +16,8 @@ public class PriorityIdTest
         // Assert
         Assert.That(priority.Value, Is.EqualTo(id));
     }
+
+
 
     [Test]
     public void EmptyProperty_ReturnsPriorityIdWithGuidEmptyValue()
@@ -65,11 +68,6 @@ public class PriorityIdTest
         // Arrange - empty
         // Act & Assert
         Assert.Throws<FormatException>(() => PriorityId.Parse(invalidGuid));
-    }
-    
-    private sealed class PriorityIdTestTestCaseSources
-    {
-        public static Guid[] DifferentGuids => [Guid.Empty, Guid.NewGuid()];
     }
 }
 

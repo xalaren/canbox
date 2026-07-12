@@ -1,4 +1,5 @@
 ﻿using KanBox.Domain.Abstractions;
+using KanBox.Domain.Constants;
 using KanBox.Domain.Primitives;
 
 namespace KanBox.Domain.Priorities;
@@ -6,7 +7,7 @@ namespace KanBox.Domain.Priorities;
 /// <summary>
 /// Priority entity
 /// </summary>
-public sealed class Priority : Entity
+public sealed class Priority : Entity<PriorityId>
 {
     /// <summary>
     /// Max length of label
@@ -15,12 +16,12 @@ public sealed class Priority : Entity
     
     private int _order;
     private string _label = null!;
-    
+
     /// <summary>
     /// Identifier of Priority entity
     /// </summary>
-    public PriorityId Id { get; }
-    
+    public override PriorityId Id { get; }
+
     /// <summary>
     /// Order value of priority
     /// </summary>
@@ -30,7 +31,7 @@ public sealed class Priority : Entity
         get => _order;
         set
         {
-            if(value < 0) throw new ArgumentOutOfRangeException(nameof(value), "Order must be greater than or equal to 0");
+            if(value < 0) throw new ArgumentOutOfRangeException(nameof(value), string.Format(ErrorMessages.Templates.MustBeGreaterOrEqual, nameof(Order), 0));
             _order = value;
         }
     }
@@ -45,9 +46,9 @@ public sealed class Priority : Entity
         get => _label;
         set
         {
-            if (string.IsNullOrWhiteSpace(value)) throw new ArgumentNullException(nameof(value), "Label cannot be null or empty");
+            if (string.IsNullOrWhiteSpace(value)) throw new ArgumentNullException(nameof(value), string.Format(ErrorMessages.Templates.NullOrWhiteSpace, nameof(Label)));
 
-            if (value.Length > LabelMaxLength) throw new ArgumentOutOfRangeException(nameof(value), $"Label length cannot be greater than {LabelMaxLength}");
+            if (value.Length > LabelMaxLength) throw new ArgumentOutOfRangeException(nameof(value), string.Format(ErrorMessages.Templates.LengthCannotBeGreater, nameof(Label), LabelMaxLength));
             _label = value;
         }
     }
