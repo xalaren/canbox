@@ -8,17 +8,6 @@ namespace KanBox.Domain.Primitives;
 /// </summary>
 public readonly struct Color : IEquatable<Color>
 {
-    private const int ColorHashCodeMultiplier = 41;
-    private const int HexCharacterIndex = 1;
-    private const int RgbHexLength = 3;
-    private const int RgbaHexLength = 4;
-    private const int DoubledRgbHexLength = 6;
-    private const int DoubledRgbaHexLength = 8;
-
-    /// <summary>
-    /// Color string value in HEX format
-    /// </summary>
-    public string Hex { get; }
     
     /// <summary>
     /// Primary constructor (format string to upper HEX format like #FF00FF)
@@ -40,6 +29,16 @@ public readonly struct Color : IEquatable<Color>
     {
         Hex = Format(red, green, blue, alpha);
     }
+    
+    /// <summary>
+    /// Max length of HEX string
+    /// </summary>
+    public const int MaxHexLength = 10;
+    
+    /// <summary>
+    /// Color string value in HEX format
+    /// </summary>
+    public string Hex { get; }
 
     public bool Equals(Color other)
     {
@@ -71,6 +70,13 @@ public readonly struct Color : IEquatable<Color>
     public static bool operator ==(Color first, Color next) => first.Equals(next);
     
     public static bool operator !=(Color first, Color next) => !first.Equals(next);
+    
+    private const int ColorHashCodeMultiplier = 41;
+    private const int HexCharacterIndex = 1;
+    private const int RgbHexLength = 3;
+    private const int RgbaHexLength = 4;
+    private const int DoubledRgbHexLength = 6;
+    private const int DoubledRgbaHexLength = 8;
     
     private string Format(string hex)
     {

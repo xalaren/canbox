@@ -12,7 +12,7 @@
         protected Entity() { }
 
         public abstract T Id { get; }
-        public DateTime CreatedOnUtc { get; private set; }
-        public DateTime ModifiedOnUtc { get; private set; }
+        public DateTime CreatedOnUtc { get; init; }
+        public DateTime ModifiedOnUtc { get; init; }
     }
 }

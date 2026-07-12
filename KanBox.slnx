@@ -1,8 +1,10 @@
 <Solution>
   <Folder Name="/Source/">
-    <Project Path="Source/KanBox.Domain/KanBox.Domain.csproj" />
+    <Project Path="KanBox.Domain/KanBox.Domain.csproj" />
+    <Project Path="KanBox.Persistence/KanBox.Persistence.csproj" Id="b99d4f37-0a9a-4c1c-8bdd-f81693b5276d" />
   </Folder>
   <Folder Name="/Tests/">
-    <Project Path="Tests/KanBox.Domain.Tests/KanBox.Domain.Tests.csproj" />
+    <Project Path="KanBox.Domain.Tests/KanBox.Domain.Tests.csproj" />
+    <Project Path="KanBox.Persistence.Tests/KanBox.Persistence.Tests.csproj" />
   </Folder>
 </Solution>

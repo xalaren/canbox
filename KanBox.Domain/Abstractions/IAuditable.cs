@@ -8,11 +8,11 @@
         /// <summary>
         /// CreatedOn UTC date and time
         /// </summary>
-        DateTime CreatedOnUtc { get; }
+        DateTime CreatedOnUtc { get; init; }
         
         /// <summary>
         /// ModifiedOn UTC date and time
         /// </summary>
-        DateTime ModifiedOnUtc { get; }
+        DateTime ModifiedOnUtc { get; init; }
     }
 }

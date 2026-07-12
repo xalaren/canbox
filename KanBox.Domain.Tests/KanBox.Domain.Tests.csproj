@@ -18,7 +18,7 @@
   </ItemGroup>
 
   <ItemGroup>
-    <ProjectReference Include="..\..\Source\KanBox.Domain\KanBox.Domain.csproj" />
+    <ProjectReference Include="..\KanBox.Domain\KanBox.Domain.csproj" />
   </ItemGroup>
 
   <ItemGroup>
