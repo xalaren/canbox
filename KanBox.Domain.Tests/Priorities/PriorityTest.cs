@@ -6,7 +6,7 @@ namespace KanBox.Domain.Tests.Priorities;
 [TestFixture]
 public class PriorityTest
 {
-    private const int ValidImportanceLevel = 0;
+    private const int ValidOrder = 0;
     private const string ValidLabel = "ValidLabel";
     private readonly Color _validColor = new Color(0, 0, 0, 0);
 
@@ -17,14 +17,14 @@ public class PriorityTest
         PriorityId id = PriorityId.New();
         
         // Act;
-        Priority priority = new Priority(id, ValidImportanceLevel, ValidLabel, _validColor);
+        Priority priority = new Priority(id, ValidOrder, ValidLabel, _validColor);
         
         // Assert
         Assert.Multiple(() =>
         {
             Assert.That(priority.Id, Is.EqualTo(id));
             Assert.That(priority.Label, Is.EqualTo(ValidLabel));
-            Assert.That(priority.ImportanceLevel, Is.EqualTo(ValidImportanceLevel));
+            Assert.That(priority.Order, Is.EqualTo(ValidOrder));
             Assert.That(priority.Color, Is.EqualTo(_validColor));
         });
     }
@@ -36,54 +36,84 @@ public class PriorityTest
         PriorityId empty = PriorityId.Empty();
         
         // Act
-        Priority priority = new Priority(ValidImportanceLevel, ValidLabel, _validColor);
+        Priority priority = new Priority(ValidOrder, ValidLabel, _validColor);
         
         // Assert
         Assert.Multiple(() =>
         {
             Assert.That(priority.Id, Is.Not.EqualTo(empty));
             Assert.That(priority.Label, Is.EqualTo(ValidLabel));
-            Assert.That(priority.ImportanceLevel, Is.EqualTo(ValidImportanceLevel));
+            Assert.That(priority.Order, Is.EqualTo(ValidOrder));
         });
     }
 
     [TestCaseSource(typeof(PriorityTestCaseSources), nameof(PriorityTestCaseSources.EmptyLabelTestCases))]
-    public void Constructor_ProvidedEmptyTitle_ThrowsArgumentNullException(string label)
+    public void Constructor_ProvidedEmptyLabel_ThrowsArgumentNullException(string label)
     {
         // Arrange - empty
         // Act && Assert
         Assert.Throws<ArgumentNullException>(() =>
         {
-            Priority priority = new Priority(ValidImportanceLevel, label, _validColor);
+            Priority priority = new Priority(ValidOrder, label, _validColor);
         });
     }
     
-    [TestCaseSource(typeof(PriorityTestCaseSources), nameof(PriorityTestCaseSources.OutOfRangeLabelTestCases))]
-    public void Constructor_ProvidedOutOfRangeTitle_ThrowsArgumentOutOfRangeException(string label)
+    [TestCaseSource(typeof(PriorityTestCaseSources), nameof(PriorityTestCaseSources.LongLabelTestCases))]
+    public void Constructor_ProvidedLongLabel_ThrowsArgumentOutOfRangeException(string label)
     {
         // Arrange - empty
         // Act && Assert
         Assert.Throws<ArgumentOutOfRangeException>(() =>
         {
-            Priority priority = new Priority(ValidImportanceLevel, label, _validColor);
+            Priority priority = new Priority(ValidOrder, label, _validColor);
         });
     }
     
-    
-    public void Constructor_ProvidedOutOfRangeImportanceLevel_ThrowsArgumentOutOfRangeException(int importanceLevel)
+    [TestCase(-1)]
+    public void Constructor_ProvidedNegativeOrder_ThrowsArgumentOutOfRangeException(int order)
     {
         // Arrange - empty
+        Priority priority = new Priority(ValidOrder, ValidLabel, _validColor);
+        
         // Act && Assert
         Assert.Throws<ArgumentOutOfRangeException>(() =>
         {
-            Priority priority = new Priority(importanceLevel, ValidLabel, _validColor);
+            priority.Order = order;
         });
     }
+    
+    [TestCaseSource(typeof(PriorityTestCaseSources), nameof(PriorityTestCaseSources.EmptyLabelTestCases))]
+    public void LabelSetter_ProvidedEmptyLabel_ThrowsArgumentNullException(string label)
+    {
+        // Arrange
+        Priority priority = new Priority(ValidOrder, ValidLabel, _validColor);
+
+        // Act & Assert
+        Assert.Throws<ArgumentNullException>(() =>
+        {
+            priority.Label = label;
+        });
+    }
+
+    [TestCaseSource(typeof(PriorityTestCaseSources), nameof(PriorityTestCaseSources.LongLabelTestCases))]
+    public void LabelSetter_ProvidedLongLabel_ThrowsArgumentOutOfRangeException(string label)
+    {
+        // Arrange
+        Priority priority = new Priority(ValidOrder, ValidLabel, _validColor);
+
+        // Act & Assert
+        Assert.Throws<ArgumentOutOfRangeException>(() =>
+        {
+            priority.Label = label;
+        });
+    }
+
+
 
     private sealed class PriorityTestCaseSources
     {
         public static string?[] EmptyLabelTestCases => [null, string.Empty, " "];
-        public static string[] OutOfRangeLabelTestCases => [GenerateString('a', Priority.LabelMaxLength + 1)];
+        public static string[] LongLabelTestCases => [GenerateString('a', Priority.LabelMaxLength + 1)];
 
         private static string GenerateString(char letter, int length)
         {

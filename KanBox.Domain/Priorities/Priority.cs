@@ -13,7 +13,7 @@ public sealed class Priority : Entity
     /// </summary>
     public const int LabelMaxLength = 50;
     
-    private int _importanceLevel;
+    private int _order;
     private string _label = null!;
     
     /// <summary>
@@ -22,16 +22,16 @@ public sealed class Priority : Entity
     public PriorityId Id { get; }
     
     /// <summary>
-    /// Importance level of priority
+    /// Order value of priority
     /// </summary>
     /// <exception cref="ArgumentOutOfRangeException">if value is less than 0</exception>
-    public int ImportanceLevel
+    public int Order
     {
-        get => _importanceLevel;
+        get => _order;
         set
         {
-            if(value < 0) throw new ArgumentOutOfRangeException(nameof(value), "Importance level must be greater than or equal to 0");
-            _importanceLevel = value;
+            if(value < 0) throw new ArgumentOutOfRangeException(nameof(value), "Order must be greater than or equal to 0");
+            _order = value;
         }
     }
     
@@ -61,13 +61,13 @@ public sealed class Priority : Entity
     /// Primary constructor
     /// </summary>
     /// <param name="id">Identifier of priority</param>
-    /// <param name="importanceLevel">Importance level</param>
+    /// <param name="order">Order</param>
     /// <param name="label">Label</param>
     /// <param name="color">Color</param>
-    public Priority(PriorityId id, int importanceLevel, string label, Color color)
+    public Priority(PriorityId id, int order, string label, Color color)
     {
         Id = id;
-        ImportanceLevel = importanceLevel;
+        Order = order;
         Label = label;
         Color = color;
     }
@@ -78,5 +78,5 @@ public sealed class Priority : Entity
     /// <param name="importanceLevel">Importance level</param>
     /// <param name="label">Label</param>
     /// <param name="color">Color</param>
-    public Priority(int importanceLevel, string label, Color color) : this(PriorityId.New(), importanceLevel, label, color) { }
+    public Priority(int order, string label, Color color) : this(PriorityId.New(), order, label, color) { }
 }
